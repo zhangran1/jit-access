@@ -98,6 +98,11 @@ gcloud projects add-iam-policy-binding $PROJECT_ID --member="serviceAccount:$INT
 gcloud projects add-iam-policy-binding $PROJECT_ID --member="serviceAccount:$INTEGRATION_TEST_SA_TEMP_ACCESS@$PROJECT_ID.iam.gserviceaccount.com" --role=roles/iam.serviceAccountTokenCreator
 
 
+
+cat sources/test.properties
+test.project=ethanhanjoonix-proj1
+test.topic=projects/ethanhanjoonix-proj1/topics/jit-access
+
 mvn compile quarkus:test
 mvn compile quarkus:dev
 
