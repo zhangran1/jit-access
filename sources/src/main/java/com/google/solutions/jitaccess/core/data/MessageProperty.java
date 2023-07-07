@@ -2,39 +2,19 @@ package com.google.solutions.jitaccess.core.data;
 
 import com.google.api.services.cloudresourcemanager.v3.model.Binding;
 import com.google.common.base.Objects;
-import com.google.gson.Gson;
 import com.google.common.base.Preconditions;
-
-import java.util.Map;
+import com.google.gson.Gson;
 
 public class MessageProperty {
 
-    public final String user;
-
-    public final Binding conditions;
-
-    public final String role;
-
-    public final String projectId;
+    public final Binding payload;
     public final MessageOrigin origin;
 
-    public MessageProperty(
-                           String user,
-                           Binding conditions,
-                           String role,
-                           String projectId,
-                           MessageOrigin origin
-                           ) {
-        Preconditions.checkNotNull(user, "user");
-        Preconditions.checkNotNull(conditions, "conditions");
-        Preconditions.checkNotNull(role, "role");
-        Preconditions.checkNotNull(projectId, "project");
-        Preconditions.checkNotNull(origin, "origin");
-        this.user = user;
-        this.projectId = projectId;
-        this.conditions = conditions;
+    public MessageProperty(Binding payload, MessageOrigin origin) {
 
-        this.role = role;
+        Preconditions.checkNotNull(payload, "payload");
+        Preconditions.checkNotNull(origin, "origin");
+        this.payload = payload;
         this.origin = origin;
     }
 
@@ -43,35 +23,25 @@ public class MessageProperty {
         if (this == o) return true;
         if (!(o instanceof MessageProperty)) return false;
         MessageProperty that = (MessageProperty) o;
-        return Objects.equal(user, that.user) &&
-                Objects.equal(conditions, that.conditions) &&
-                Objects.equal(role, that.role) &&
-                Objects.equal(projectId, that.projectId) &&
+        return Objects.equal(payload, that.payload) &&
                 origin == that.origin;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(user, conditions, role, projectId, origin);
+        return Objects.hashCode(payload, origin);
     }
 
     @Override
     public String toString() {
-        return new Gson().toJson(new Binding().set("data", new Binding()
-                        .set("user", user)
-                        .set("conditions", conditions)
-                        .set("role", role)
-                        .set("project_id", projectId))
+        return new Gson().toJson(new Binding()
+                .set("data", payload)
                 .set("attribute", origin));
     }
 
     public String getData() {
         return new Gson().toJson(new Binding()
-                        .set("user", user)
-                        .set("conditions", conditions)
-                        .set("role", role)
-                        .set("project_id", projectId));
-
+                .set("payload", payload));
     }
 
     public enum MessageOrigin {
@@ -95,6 +65,7 @@ public class MessageProperty {
                 return "jit-notification";
             }
         },
+
         TEST {
             public String toString() {
                 return "jit-test";
