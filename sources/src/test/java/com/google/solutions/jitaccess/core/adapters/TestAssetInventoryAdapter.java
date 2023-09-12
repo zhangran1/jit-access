@@ -98,7 +98,6 @@ public class TestAssetInventoryAdapter {
   // findPermissionedPrincipalsByResource.
   // -------------------------------------------------------------------------
 
-
   @Test
   public void whenUnauthenticated_ThenPermissionedPrincipalsByResourceThrowsException() {
     var adapter = new AssetInventoryAdapter(IntegrationTestEnvironment.INVALID_CREDENTIAL);
